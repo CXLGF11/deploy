@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>姻缘术数测算 · 改命记实录</title>
+<style>
+:root {
+  --primary: #c0392b;
+  --primary-light: #e74c3c;
+  --gold: #d4af37;
+  --gold-light: #f0d77b;
+  --bg: #fdf6ec;
+  --bg2: #fef9f0;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --border: #e8d5b8;
+  --success: #27ae60;
+  --warning: #e67e22;
+  --danger: #c0392b;
+  --shadow: 0 2px 12px rgba(192,57,43,0.08);
+  --shadow-lg: 0 4px 24px rgba(192,57,43,0.12);
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, var(--bg) 0%, var(--bg2) 100%);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+.container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+/* 顶部标题 */
+.header {
+  text-align: center;
+  padding: 32px 16px 24px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.header .subtitle {
+  color: var(--text-light);
+  font-size: 13px;
+  margin-top: 8px;
+}
+.header .deco {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 20px;
+  margin: 0 12px;
+}
+
+/* Tab */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 6px;
+  box-shadow: var(--shadow);
+}
+.tab-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(192,57,43,0.3);
+}
+.tab-content { display: none; animation: fadeIn 0.4s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* 表单 */
+.form-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.form-group label .hint { color: var(--text-light); font-weight: 400; font-size: 12px; }
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg2);
+  transition: border-color 0.3s;
+}
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.date-selects {
+  display: flex;
+  gap: 8px;
+}
+.date-selects select {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+}
+.radio-group { display: flex; gap: 12px; }
+.radio-item {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  background: var(--bg2);
+}
+.radio-item input { display: none; }
+.radio-item.selected {
+  border-color: var(--primary);
+  background: rgba(192,57,43,0.06);
+  color: var(--primary);
+  font-weight: 600;
+}
+.person-section {
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.person-section h3 {
+  font-size: 14px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(192,57,43,0.3); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+
+/* 结果 */
+.results { display: none; }
+.results.show { display: block; animation: fadeIn 0.5s ease; }
+
+.best-match {
+  background: linear-gradient(135deg, #fff 0%, #fff8f0 100%);
+  border: 2px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.best-match::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--primary), var(--gold));
+}
+.best-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.match-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+.match-subtitle { font-size: 14px; color: var(--text-light); margin-bottom: 16px; }
+
+.score-bar {
+  background: var(--bg);
+  border-radius: 20px;
+  height: 28px;
+  overflow: hidden;
+  position: relative;
+  margin: 16px 0;
+}
+.score-fill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.score-fill.high { background: linear-gradient(90deg, var(--success), #2ecc71); }
+.score-fill.mid { background: linear-gradient(90deg, var(--warning), #f39c12); }
+.score-fill.low { background: linear-gradient(90deg, var(--danger), #e74c3c); }
+
+.dimension-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.dim-card {
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.dim-card .dim-label { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
+.dim-card .dim-value { font-size: 16px; font-weight: 700; }
+.dim-card .dim-value.good { color: var(--success); }
+.dim-card .dim-value.mid { color: var(--warning); }
+.dim-card .dim-value.bad { color: var(--danger); }
+
+.date-list { margin-top: 16px; }
+.date-list-title { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
+.date-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.date-tag {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text);
+}
+.date-tag .date-zodiac { color: var(--primary); font-weight: 600; }
+
+.alt-match {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.alt-match-info { flex: 1; }
+.alt-match-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.alt-match-desc { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+.alt-score {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 10px;
+  min-width: 60px;
+  text-align: center;
+}
+.alt-score.high { color: var(--success); background: rgba(39,174,96,0.1); }
+.alt-score.mid { color: var(--warning); background: rgba(230,126,34,0.1); }
+.alt-score.low { color: var(--danger); background: rgba(192,57,43,0.1); }
+
+/* 配对结果 */
+.pair-result {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.pair-score-circle {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pair-score-num {
+  font-size: 36px;
+  font-weight: 700;
+  z-index: 1;
+}
+.pair-score-label {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+.pair-detail {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+.pair-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.pair-detail-row:last-child { border-bottom: none; }
+.pair-detail-label { font-size: 14px; color: var(--text-light); }
+.pair-detail-value { font-size: 14px; font-weight: 600; }
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tag.good { background: rgba(39,174,96,0.15); color: var(--success); }
+.tag.mid { background: rgba(230,126,34,0.15); color: var(--warning); }
+.tag.bad { background: rgba(192,57,43,0.15); color: var(--danger); }
+
+.comment-box {
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.8;
+  border-left: 4px solid var(--gold);
+}
+
+/* 化解方法 */
+.huajie-box {
+  background: linear-gradient(135deg, #f0f7ff 0%, #fff8f0 100%);
+  border: 1px solid #b8d4f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.huajie-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2980b9;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.huajie-item {
+  background: rgba(255,255,255,0.7);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 3px solid #3498db;
+}
+.huajie-item:last-child { margin-bottom: 0; }
+.huajie-item-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2980b9;
+  margin-bottom: 4px;
+}
+.huajie-item-desc {
+  font-size: 13px;
+  color: var(--text);
+}
+.huajie-gui {
+  display: inline-block;
+  background: #3498db;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin: 2px 4px 2px 0;
+}
+.huajie-note {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #b8d4f0;
+}
+
+/* 加载 */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-light);
+}
+.loading .spinner {
+  display: inline-block;
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 底部 */
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-light);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.footer .disclaimer {
+  background: rgba(192,57,43,0.05);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .container { padding: 12px; }
+  .header h1 { font-size: 22px; }
+  .form-card { padding: 20px 16px; }
+  .dimension-grid { grid-template-columns: 1fr; }
+  .match-title { font-size: 18px; }
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><span class="deco">◆</span>姻缘术数测算<span class="deco">◆</span></h1>
+    <div class="subtitle">基于《改命记实录》属相合婚 · 命宫婚配 · 方位法 · 断头婚</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(0)">🔮 推测佳偶</button>
+    <button class="tab-btn" onclick="switchTab(1)">💕 双人配对</button>
+  </div>
+
+  <!-- Tab 1: 推测对象 -->
+  <div class="tab-content active" id="tab0">
+    <div class="form-card">
+      <div class="form-group">
+        <label>你的出生日期 <span class="hint">阳历</span></label>
+        <div class="date-selects" data-prefix="my">
+          <select id="myYear"></select>
+          <select id="myMonth"></select>
+          <select id="myDay"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>性别</label>
+        <div class="radio-group" id="myGender">
+          <label class="radio-item" data-val="male"><input type="radio" name="myGender" value="male">男</label>
+          <label class="radio-item" data-val="female"><input type="radio" name="myGender" value="female">女</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>出生地 <span class="hint">用于方位参考，可选</span></label>
+        <select id="myCity">
+          <option value="">不限</option>
+        </select>
+      </div>
+      <button class="btn-primary" id="btnPredict" onclick="predictMatch()">开始推测</button>
+    </div>
+    <div class="results" id="predictResults"></div>
+  </div>
+
+  <!-- Tab 2: 配对测试 -->
+  <div class="tab-content" id="tab1">
+    <div class="form-card">
+      <div class="person-section">
+        <h3>👤 甲方</h3>
+        <div class="form-group">
+          <label>出生日期 <span class="hint">阳历</span></label>
+          <div class="date-selects" data-prefix="p1">
+            <select id="p1Year"></select>
+            <select id="p1Month"></select>
+            <select id="p1Day"></select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>性别</label>
+          <div class="radio-group" id="p1Gender">
+            <label class="radio-item" data-val="male"><input type="radio" name="p1Gender" value="male">男</label>
+            <label class="radio-item" data-val="female"><input type="radio" name="p1Gender" value="female">女</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>出生地 <span class="hint">可选</span></label>
+          <select id="p1City"><option value="">不限</option></select>
+        </div>
+      </div>
+      <div class="person-section">
+        <h3>👤 乙方</h3>
+        <div class="form-group">
+          <label>出生日期 <span class="hint">阳历</span></label>
+          <div class="date-selects" data-prefix="p2">
+            <select id="p2Year"></select>
+            <select id="p2Month"></select>
+            <select id="p2Day"></select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>性别</label>
+          <div class="radio-group" id="p2Gender">
+            <label class="radio-item" data-val="male"><input type="radio" name="p2Gender" value="male">男</label>
+            <label class="radio-item" data-val="female"><input type="radio" name="p2Gender" value="female">女</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>出生地 <span class="hint">可选</span></label>
+          <select id="p2City"><option value="">不限</option></select>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnPair" onclick="pairTest()">开始配对</button>
+    </div>
+    <div class="results" id="pairResults"></div>
+  </div>
+
+  <div class="footer">
+    <div class="disclaimer">
+      ⚠️ 本工具仅供娱乐参考，所有术数方法源自小说《改命记实录》，非科学预测。属相命宫仅看八字一字，"一个字定不了乾坤"。感情靠经营，别拿这个当决策依据。
+    </div>
+    <div>知识来源：道之光《改命记实录》第5、51、79、112、224、259-267、603、628章</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
+<script>
+// ============ 常量数据 ============
+const ZHI = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const ZHI_ZODIAC = {'子':'鼠','丑':'牛','寅':'虎','卯':'兔','辰':'龙','巳':'蛇','午':'马','未':'羊','申':'猴','酉':'鸡','戌':'狗','亥':'猪'};
+const ZODIAC_ZHI = {'鼠':'子','牛':'丑','虎':'寅','兔':'卯','龙':'辰','蛇':'巳','马':'午','羊':'未','猴':'申','鸡':'酉','狗':'戌','猪':'亥'};
+
+// 农历月→地支
+const MONTH_ZHI = {1:'寅',2:'卯',3:'辰',4:'巳',5:'午',6:'未',7:'申',8:'酉',9:'戌',10:'亥',11:'子',12:'丑'};
+const CLOCK_ORDER = ['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'];
+const DIRECTION_MAP = {'子':'正北','午':'正南','卯':'正东','酉':'正西','寅':'东北','丑':'东北','辰':'东南','巳':'东南','未':'西南','申':'西南','戌':'西北','亥':'西北'};
+
+// 命宫
+const GUA_NAME = {1:'坎',2:'坤',3:'震',4:'巽',6:'乾',7:'兑',8:'艮',9:'离'};
+const GUA_ELEM = {1:'水',2:'土',3:'木',4:'木',6:'金',7:'金',8:'土',9:'火'};
+const GUA_ROLE = {1:'二哥',2:'母亲',3:'大哥',4:'大姐',6:'父亲',7:'妹妹',8:'弟弟',9:'二姐'};
+const GUA_GROUP = {1:'东四命',2:'西四命',3:'东四命',4:'东四命',6:'西四命',7:'西四命',8:'西四命',9:'东四命'};
+const YIDENG_PAIRS = {6:2,2:6,3:4,4:3,1:9,9:1,8:7,7:8};
+
+// 属相关系表（按地支）
+const ZHI_RELATIONS = {
+  '子':{sanhe:['申','辰'],sanhui:['亥','丑'],liuhe:'丑',chong:'午',hai:'未',xing:'卯',po:'酉',zixing:false},
+  '丑':{sanhe:['巳','酉'],sanhui:['子','亥'],liuhe:'子',chong:'未',hai:'午',xing:'戌',po:'辰',zixing:false},
+  '寅':{sanhe:['午','戌'],sanhui:['卯','辰'],liuhe:'亥',chong:'申',hai:'巳',xing:'巳',po:'亥',zixing:false},
+  '卯':{sanhe:['亥','未'],sanhui:['寅','辰'],liuhe:'戌',chong:'酉',hai:'辰',xing:'子',po:'午',zixing:false},
+  '辰':{sanhe:['申','子'],sanhui:['寅','卯'],liuhe:'酉',chong:'戌',hai:'卯',xing:'辰',po:'丑',zixing:true},
+  '巳':{sanhe:['酉','丑'],sanhui:['午','未'],liuhe:'申',chong:'亥',hai:'寅',xing:'申',po:'寅',zixing:false},
+  '午':{sanhe:['寅','戌'],sanhui:['巳','未'],liuhe:'未',chong:'子',hai:'丑',xing:'午',po:'卯',zixing:true},
+  '未':{sanhe:['亥','卯'],sanhui:['巳','午'],liuhe:'午',chong:'丑',hai:'子',xing:'戌',po:'戌',zixing:false},
+  '申':{sanhe:['子','辰'],sanhui:['酉','戌'],liuhe:'巳',chong:'寅',hai:'亥',xing:'寅',po:'巳',zixing:false},
+  '酉':{sanhe:['巳','丑'],sanhui:['申','戌'],liuhe:'辰',chong:'卯',hai:'戌',xing:'酉',po:'子',zixing:true},
+  '戌':{sanhe:['寅','午'],sanhui:['申','酉'],liuhe:'卯',chong:'辰',hai:'酉',xing:'未',po:'未',zixing:false},
+  '亥':{sanhe:['卯','未'],sanhui:['子','丑'],liuhe:'寅',chong:'巳',hai:'申',xing:'亥',po:'寅',zixing:true}
+};
+
+// 断头婚歌诀（小五婚=六害）
+const DUANTOU_HAI = {
+  '子未':'白马怕青牛','未子':'白马怕青牛',
+  '丑午':'羊鼠一旦休','午丑':'羊鼠一旦休',
+  '寅巳':'蛇虎如刀错','巳寅':'蛇虎如刀错',
+  '卯辰':'龙兔云端走','辰卯':'龙兔云端走',
+  '酉戌':'金鸡怕玉犬','戌酉':'金鸡怕玉犬',
+  '申亥':'猪猴不到头','亥申':'猪猴不到头'
+};
+
+// ============ 化解方法：贵人属相表（第267章）============
+// 相冲化解：用六合来合住冲方之一
+const CHONG_HUAJIE = {
+  '子午':{gui:['丑(牛)','未(羊)'],desc:'子午相冲（水火冲）。用丑合子或未合午来化解——多接触属牛、属羊的人'},
+  '丑未':{gui:['子(鼠)','午(马)'],desc:'丑未相冲（土土冲）。用子合丑或午合未来化解——多接触属鼠、属马的人'},
+  '寅申':{gui:['亥(猪)','巳(蛇)'],desc:'寅申相冲（金木冲）。用亥合寅或巳合申来化解——多接触属猪、属蛇的人'},
+  '卯酉':{gui:['辰(龙)','戌(狗)'],desc:'卯酉相冲（金木冲）。用辰合酉或戌合卯来化解——多接触属龙、属狗的人'},
+  '辰戌':{gui:['酉(鸡)','卯(兔)'],desc:'辰戌相冲（土土冲）。用酉合辰或卯合戌来化解——多接触属鸡、属兔的人'},
+  '巳亥':{gui:['申(猴)','寅(虎)'],desc:'巳亥相冲（水火冲）。用申合巳或寅合亥来化解——多接触属猴、属虎的人'}
+};
+// 相害化解：用三合来调和
+const HAI_HUAJIE = {
+  '子未':{gui:['申(猴)','卯(兔)'],desc:'子未相害。用申（子的三合）或卯（未的三合）来调和——多接触属猴、属兔的人'},
+  '丑午':{gui:['巳(蛇)','寅(虎)'],desc:'丑午相害。用巳（丑的三合）或寅（午的三合）来调和——多接触属蛇、属虎的人'},
+  '寅巳':{gui:['午(马)','酉(鸡)'],desc:'寅巳相害。用午（寅的三合）或酉（巳的三合）来调和——多接触属马、属鸡的人'},
+  '卯辰':{gui:['亥(猪)','申(猴)'],desc:'卯辰相害。用亥（卯的三合）或申（辰的三合）来调和——多接触属猪、属猴的人'},
+  '申亥':{gui:['子(鼠)','卯(兔)'],desc:'申亥相害。用子（申的三合）或卯（亥的三合）来调和——多接触属鼠、属兔的人'},
+  '酉戌':{gui:['巳(蛇)','寅(虎)'],desc:'酉戌相害。用巳（酉的三合）或寅（戌的三合）来调和——多接触属蛇、属虎的人'}
+};
+// 自刑化解：用六合来合住
+const ZIXING_HUAJIE = {
+  '辰':{gui:['酉(鸡)'],desc:'辰辰自刑。用酉（六合辰）来化解——多接触属鸡的人'},
+  '午':{gui:['未(羊)'],desc:'午午自刑。用未（六合午）来化解——多接触属羊的人'},
+  '酉':{gui:['辰(龙)'],desc:'酉酉自刑。用辰（六合酉）来化解——多接触属龙的人'},
+  '亥':{gui:['寅(虎)'],desc:'亥亥自刑。用寅（六合亥）来化解——多接触属虎的人'}
+};
+// 相刑化解（非自刑的刑）
+const XING_HUAJIE = {
+  '子卯':{gui:['申(猴)','辰(龙)','亥(猪)、未(羊)'],desc:'子卯相刑（无礼之刑）。用子的三合（申辰）或卯的三合（亥未）来调和'},
+  '卯子':{gui:['亥(猪)、未(羊)','申(猴)、辰(龙)'],desc:'子卯相刑（无礼之刑）。用卯的三合（亥未）或子的三合（申辰）来调和'},
+  '寅巳':{gui:['午(马)','酉(鸡)'],desc:'寅巳相刑（无恩之刑）。用寅的三合（午戌）或巳的三合（酉丑）来调和'},
+  '巳寅':{gui:['酉(鸡)','午(马)'],desc:'寅巳相刑（无恩之刑）。用巳的三合（酉丑）或寅的三合（午戌）来调和'},
+  '丑戌':{gui:['巳(蛇)、酉(鸡)','寅(虎)、午(马)'],desc:'丑戌相刑（恃势之刑）。用丑的三合（巳酉）或戌的三合（寅午）来调和'},
+  '戌丑':{gui:['寅(虎)、午(马)','巳(蛇)、酉(鸡)'],desc:'丑戌相刑（恃势之刑）。用戌的三合（寅午）或丑的三合（巳酉）来调和'},
+  '巳申':{gui:['酉(鸡)、丑(牛)','亥(猪)、卯(兔)'],desc:'巳申相刑。用巳的三合（酉丑）或申的三合（子辰）来调和'},
+  '申巳':{gui:['子(鼠)、辰(龙)','酉(鸡)、丑(牛)'],desc:'巳申相刑。用申的三合（子辰）或巳的三合（酉丑）来调和'}
+};
+
+// 城市坐标 [纬度, 经度]
+const CITY_COORDS = {
+  '北京':[39.90,116.40],'上海':[31.23,121.47],'天津':[39.08,117.20],'重庆':[29.56,106.55],
+  '广州':[23.13,113.26],'深圳':[22.54,114.06],'杭州':[30.27,120.15],'南京':[32.04,118.78],
+  '武汉':[30.59,114.31],'成都':[30.67,104.07],'西安':[34.27,108.95],'长沙':[28.23,112.94],
+  '郑州':[34.75,113.62],'沈阳':[41.80,123.43],'长春':[43.88,125.32],'哈尔滨':[45.80,126.53],
+  '济南':[36.65,117.00],'太原':[37.87,112.55],'合肥':[31.82,117.27],'南昌':[28.68,115.86],
+  '福州':[26.08,119.30],'昆明':[25.04,102.71],'贵阳':[26.65,106.71],'兰州':[36.06,103.83],
+  '西宁':[36.62,101.78],'银川':[38.47,106.27],'乌鲁木齐':[43.83,87.62],'拉萨':[29.65,91.13],
+  '南宁':[22.82,108.37],'海口':[20.04,110.20],'呼和浩特':[40.82,111.65],'石家庄':[38.04,114.51],
+  '唐山':[39.63,118.18],'保定':[38.87,115.47],'邯郸':[36.60,114.54],'廊坊':[39.52,116.68],
+  '秦皇岛':[39.93,119.60],'张家口':[40.77,114.89],'承德':[40.95,117.93],'沧州':[38.30,116.84],
+  '衡水':[37.73,115.67],'邢台':[37.07,114.50],'太原':[37.87,112.55],'大同':[40.08,113.30],
+  '运城':[35.02,111.01],'临汾':[36.08,111.52],'长治':[36.19,113.12],'晋城':[35.49,112.85],
+  '沈阳':[41.80,123.43],'大连':[38.91,121.60],'鞍山':[41.11,122.99],'抚顺':[41.87,123.96],
+  '丹东':[40.00,124.35],'锦州':[41.10,121.12],'营口':[40.67,122.23],'葫芦岛':[40.71,120.84],
+  '长春':[43.88,125.32],'吉林市':[43.84,126.55],'延吉':[42.89,129.47],'通化':[41.73,125.94],
+  '哈尔滨':[45.80,126.53],'齐齐哈尔':[47.35,123.97],'大庆':[46.59,125.10],'牡丹江':[44.55,129.63],
+  '南京':[32.04,118.78],'苏州':[31.30,120.62],'无锡':[31.57,120.30],'常州':[31.78,119.97],
+  '南通':[32.01,120.86],'徐州':[34.20,117.18],'扬州':[32.39,119.42],'盐城':[33.35,120.16],
+  '镇江':[32.20,119.45],'泰州':[32.48,119.92],'连云港':[34.60,119.22],'宿迁':[33.96,118.28],
+  '淮安':[33.51,119.02],'杭州':[30.27,120.15],'宁波':[29.87,121.55],'温州':[28.00,120.67],
+  '绍兴':[30.00,120.58],'嘉兴':[30.75,120.75],'金华':[29.08,119.65],'台州':[28.66,121.42],
+  '合肥':[31.82,117.27],'芜湖':[31.35,118.43],'蚌埠':[32.92,117.36],'安庆':[30.53,117.06],
+  '黄山':[29.72,118.34],'阜阳':[32.89,115.81],'亳州':[33.85,115.78],'六安':[31.73,116.51],
+  '福州':[26.08,119.30],'厦门':[24.48,118.09],'泉州':[24.87,118.67],'漳州':[24.51,117.66],
+  '南昌':[28.68,115.86],'赣州':[25.83,114.93],'九江':[29.71,115.97],'上饶':[28.45,117.94],
+  '济南':[36.65,117.00],'青岛':[36.07,120.38],'烟台':[37.46,121.45],'潍坊':[36.71,119.16],
+  '临沂':[35.10,118.36],'淄博':[36.81,118.05],'威海':[37.51,122.12],'济宁':[35.41,116.59],
+  '郑州':[34.75,113.62],'洛阳':[34.62,112.45],'开封':[34.80,114.31],'新乡':[35.30,113.93],
+  '南阳':[33.00,112.53],'信阳':[32.15,114.07],'许昌':[34.04,113.85],'周口':[33.62,114.65],
+  '武汉':[30.59,114.31],'宜昌':[30.69,111.29],'襄阳':[32.04,112.14],'荆州':[30.33,112.24],
+  '黄冈':[30.45,114.87],'黄石':[30.20,115.04],'十堰':[32.63,110.80],'荆门':[31.04,112.20],
+  '孝感':[30.92,113.92],'咸宁':[29.84,114.32],'随州':[31.69,113.38],'恩施':[30.27,109.49],
+  '武穴':[29.85,115.55],'麻城':[31.17,115.02],'赤壁':[29.72,113.90],'广水':[31.62,113.82],
+  '长沙':[28.23,112.94],'株洲':[27.83,113.13],'湘潭':[27.83,112.94],'衡阳':[26.89,112.57],
+  '岳阳':[29.36,113.13],'常德':[29.03,111.69],'郴州':[25.79,113.02],'邵阳':[27.24,111.47],
+  '广州':[23.13,113.26],'深圳':[22.54,114.06],'珠海':[22.27,113.58],'佛山':[23.02,113.12],
+  '东莞':[23.02,113.75],'中山':[22.52,113.39],'惠州':[23.11,114.42],'江门':[22.58,113.08],
+  '南宁':[22.82,108.37],'柳州':[24.33,109.42],'桂林':[25.27,110.29],'北海':[21.47,109.12],
+  '海口':[20.04,110.20],'三亚':[18.25,109.51],'儋州':[19.52,109.58],
+  '成都':[30.67,104.07],'绵阳':[31.47,104.68],'南充':[30.84,106.11],'宜宾':[28.77,104.62],
+  '贵阳':[26.65,106.71],'遵义':[27.69,106.93],'六盘水':[26.59,104.83],
+  '昆明':[25.04,102.71],'曲靖':[25.49,103.80],'大理':[25.69,100.16],'丽江':[26.87,100.23],
+  '西安':[34.27,108.95],'宝鸡':[34.36,107.24],'咸阳':[34.33,108.71],'渭南':[34.50,109.51],
+  '兰州':[36.06,103.83],'天水':[34.58,105.72],'酒泉':[39.73,98.49],
+  '西宁':[36.62,101.78],'海东':[36.50,102.10],
+  '银川':[38.47,106.27],'石嘴山':[38.98,106.38],
+  '乌鲁木齐':[43.83,87.62],'喀什':[39.47,75.99],'伊宁':[43.91,81.33],
+  '拉萨':[29.65,91.13],'日喀则':[29.27,88.88],
+  '呼和浩特':[40.82,111.65],'包头':[40.66,109.84],'鄂尔多斯':[39.82,109.99],
+  '石家庄':[38.04,114.51],'唐山':[39.63,118.18],'保定':[38.87,115.47]
+};
+
+// ============ 核心计算函数 ============
+
+// 获取有效年份（处理立春）
+function getEffectiveYear(y, m, d) {
+  try {
+    const solar = Solar.fromYmd(y, m, d);
+    const lunar = solar.getLunar();
+    const yearZhiExact = lunar.getYearZhiExact();
+    const offset = ((y - 2008) % 12 + 12) % 12;
+    const yearZhiSimple = ZHI[offset];
+    return yearZhiExact === yearZhiSimple ? y : y - 1;
+  } catch(e) { return y; }
+}
+
+// 命宫计算（书中第264章方法）
+function calcMingua(year, gender) {
+  let s = String(year).split('').reduce((a, b) => a + parseInt(b), 0);
+  while (s > 9) s -= 9;
+  let result = gender === 'male' ? 11 - s : 4 + s;
+  while (result > 9) result -= 9;
+  if (result === 5) result = gender === 'male' ? 2 : 8;
+  if (result === 0) result = 9;
+  return result;
+}
+
+// 获取年支（基于立春）
+function getYearZhi(y, m, d) {
+  try {
+    const solar = Solar.fromYmd(y, m, d);
+    return solar.getLunar().getYearZhiExact();
+  } catch(e) {
+    const offset = ((getEffectiveYear(y,m,d) - 2008) % 12 + 12) % 12;
+    return ZHI[offset];
+  }
+}
+
+// 农历转换
+function getLunarDate(y, m, d) {
+  const solar = Solar.fromYmd(y, m, d);
+  const lunar = solar.getLunar();
+  let month = lunar.getMonth();
+  if (month < 0) month = Math.abs(month); // 闰月沿用该月地支
+  return { month, day: lunar.getDay(), ganzhi: lunar.getYearInGanZhiExact() };
+}
+
+// 婚配方位法
+function calcDirection(lunarMonth, lunarDay) {
+  const start = MONTH_ZHI[lunarMonth];
+  const startIdx = CLOCK_ORDER.indexOf(start);
+  const final = CLOCK_ORDER[(startIdx + lunarDay - 1) % 12];
+  return { zhi: final, direction: DIRECTION_MAP[final], zodiac: ZHI_ZODIAC[final] };
+}
+
+// 属相关系判断
+function getZodiacRelation(zhi1, zhi2) {
+  if (zhi1 === zhi2) {
+    const rel = ZHI_RELATIONS[zhi1];
+    if (rel.zixing) return { type:'自刑', desc:'同属相自刑', score:10, tag:'bad' };
+  }
+  const rel = ZHI_RELATIONS[zhi1];
+  if (rel.sanhe.includes(zhi2)) return { type:'三合', desc:'大吉，最配', score:40, tag:'good' };
+  if (rel.sanhui.includes(zhi2)) return { type:'三会', desc:'吉，不错', score:35, tag:'good' };
+  if (rel.liuhe === zhi2) return { type:'六合', desc:'吉，合中带破', score:30, tag:'good' };
+  if (rel.chong === zhi2) return { type:'相冲', desc:'凶，避开', score:0, tag:'bad' };
+  if (rel.hai === zhi2) return { type:'相害', desc:'忌，避开', score:5, tag:'bad' };
+  if (rel.xing === zhi2) return { type:'相刑', desc:'凶，注意', score:5, tag:'bad' };
+  if (rel.po === zhi2) return { type:'相破', desc:'注意，较轻', score:15, tag:'mid' };
+  return { type:'中性', desc:'无合无冲', score:20, tag:'mid' };
+}
+
+// 命宫关系判断
+function getMinguaRelation(m1, m2) {
+  if (YIDENG_PAIRS[m1] === m2) return { type:'一等婚', desc:'逢凶化吉，天作之合', score:35, tag:'good' };
+  if (GUA_GROUP[m1] === GUA_GROUP[m2]) return { type:'同组', desc:'较好，非最优', score:20, tag:'mid' };
+  return { type:'不同组', desc:'较差', score:10, tag:'bad' };
+}
+
+// 断头婚检查
+function checkDuantou(zhi1, zhi2) {
+  const key = zhi1 + zhi2;
+  if (ZHI_RELATIONS[zhi1].chong === zhi2) {
+    return { type:'大五婚（相冲）', desc:'断头婚大五婚，六冲之一', bad:true };
+  }
+  if (DUANTOU_HAI[key]) {
+    return { type:'小五婚（相害）', desc:DUANTOU_HAI[key], bad:true };
+  }
+  return null;
+}
+
+// 化解方法查询
+function getHuajie(zhi1, zhi2, relType) {
+  const key12 = zhi1 + zhi2;
+  const key21 = zhi2 + zhi1;
+  if (relType === '相冲') {
+    if (CHONG_HUAJIE[key12]) return CHONG_HUAJIE[key12];
+    if (CHONG_HUAJIE[key21]) return CHONG_HUAJIE[key21];
+  }
+  if (relType === '相害') {
+    if (HAI_HUAJIE[key12]) return HAI_HUAJIE[key12];
+    if (HAI_HUAJIE[key21]) return HAI_HUAJIE[key21];
+  }
+  if (relType === '自刑') {
+    return ZIXING_HUAJIE[zhi1] || null;
+  }
+  if (relType === '相刑') {
+    if (XING_HUAJIE[key12]) return XING_HUAJIE[key12];
+    if (XING_HUAJIE[key21]) return XING_HUAJIE[key21];
+  }
+  return null;
+}
+
+// 地理方位计算
+function calcGeoDirection(city1, city2) {
+  const c1 = CITY_COORDS[city1];
+  const c2 = CITY_COORDS[city2];
+  if (!c1 || !c2) return null;
+  const dLon = c2[1] - c1[1];
+  const dLat = c2[0] - c1[0];
+  let angle = Math.atan2(dLon, dLat) * 180 / Math.PI;
+  if (angle < 0) angle += 360;
+  const dirs = ['正北','东北','正东','东南','正南','西南','正西','西北'];
+  const idx = Math.floor((angle + 22.5) / 45) % 8;
+  return dirs[idx];
+}
+
+// ============ 推测对象算法 ============
+function predictMatches(birthDate, gender) {
+  const [y, m, d] = birthDate.split('-').map(Number);
+  const effYear = getEffectiveYear(y, m, d);
+  const myZhi = getYearZhi(y, m, d);
+  const myMingua = calcMingua(effYear, gender);
+  const lunar = getLunarDate(y, m, d);
+  const myDir = calcDirection(lunar.month, lunar.day);
+  const targetMingua = YIDENG_PAIRS[myMingua];
+  const partnerGender = gender === 'male' ? 'female' : 'male';
+
+  const results = [];
+  for (let year = effYear - 8; year <= effYear + 8; year++) {
+    if (year < 1940 || year > new Date().getFullYear()) continue;
+    const partnerMingua = calcMingua(year, partnerGender);
+    const offset = ((year - 2008) % 12 + 12) % 12;
+    const partnerZhi = ZHI[offset];
+    const partnerZodiac = ZHI_ZODIAC[partnerZhi];
+
+    const zRel = getZodiacRelation(myZhi, partnerZhi);
+    const mRel = getMinguaRelation(myMingua, partnerMingua);
+    const isYideng = partnerMingua === targetMingua;
+    const isSameGroup = GUA_GROUP[partnerMingua] === GUA_GROUP[myMingua];
+
+    // 筛选：一等婚 或 (同组+属相吉)
+    if (!isYideng && !(isSameGroup && zRel.score >= 30)) continue;
+
+    // 在这一年找方位落点为吉的日期
+    const bestDates = findBestDatesInYear(year, myZhi);
+    const topDates = bestDates.slice(0, 6);
+
+    // 落点关系评分（取最好的）
+    let dirScore = 12; // 中性默认
+    let dirRel = '中性';
+    if (topDates.length > 0) {
+      const bestDir = topDates[0];
+      dirScore = bestDir.relationScore;
+      dirRel = bestDir.relationType;
+    }
+
+    const totalScore = zRel.score + mRel.score + dirScore;
+    const ageDiff = year - effYear;
+
+    results.push({
+      year, zodiac: partnerZodiac, zhi: partnerZhi,
+      mingua: partnerMingua, minguaName: GUA_NAME[partnerMingua],
+      minguaGroup: GUA_GROUP[partnerMingua],
+      zodiacRelation: zRel, minguaRelation: mRel,
+      isYideng, dirScore, dirRel,
+      dates: topDates, totalDates: bestDates.length,
+      totalScore, ageDiff,
+      gender: partnerGender
+    });
+  }
+
+  results.sort((a, b) => b.totalScore - a.totalScore);
+  return { results, myInfo: { zhi: myZhi, zodiac: ZHI_ZODIAC[myZhi], mingua: myMingua, direction: myDir, lunar } };
+}
+
+function findBestDatesInYear(year, myZhi) {
+  const hits = [];
+  for (let mth = 1; mth <= 12; mth++) {
+    const daysInMonth = new Date(year, mth, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+      try {
+        const lunar = getLunarDate(year, mth, day);
+        const dir = calcDirection(lunar.month, lunar.day);
+        const rel = getZodiacRelation(myZhi, dir.zhi);
+        if (rel.score >= 30) { // 三合/三会/六合
+          const season = mth>=3&&mth<=5?'春':mth>=6&&mth<=8?'夏':mth>=9&&mth<=11?'秋':'冬';
+          hits.push({
+            solar: `${mth}月${day}日`, lunar: `${lunar.month}月${lunar.day}日`,
+            season, zodiac: dir.zodiac, direction: dir.direction,
+            relationType: rel.type, relationScore: rel.score
+          });
+        }
+      } catch(e) {}
+    }
+  }
+  // 三合优先
+  hits.sort((a, b) => b.relationScore - a.relationScore);
+  return hits;
+}
+
+// ============ 配对测试算法 ============
+function pairTestCalc(p1, p2) {
+  const [y1, m1, d1] = p1.date.split('-').map(Number);
+  const [y2, m2, d2] = p2.date.split('-').map(Number);
+  const effY1 = getEffectiveYear(y1, m1, d1);
+  const effY2 = getEffectiveYear(y2, m2, d2);
+  const zhi1 = getYearZhi(y1, m1, d1);
+  const zhi2 = getYearZhi(y2, m2, d2);
+  const mg1 = calcMingua(effY1, p1.gender);
+  const mg2 = calcMingua(effY2, p2.gender);
+  const lunar1 = getLunarDate(y1, m1, d1);
+  const lunar2 = getLunarDate(y2, m2, d2);
+  const dir1 = calcDirection(lunar1.month, lunar1.day);
+  const dir2 = calcDirection(lunar2.month, lunar2.day);
+
+  const zRel = getZodiacRelation(zhi1, zhi2);
+  const mRel = getMinguaRelation(mg1, mg2);
+  const duantou = checkDuantou(zhi1, zhi2);
+
+  // 方位匹配
+  let dirScore = 3;
+  let dirDesc = '互不在对方吉方位';
+  if (p1.city && p2.city) {
+    const geo12 = calcGeoDirection(p1.city, p2.city);
+    const geo21 = calcGeoDirection(p2.city, p1.city);
+    const match1 = geo12 === dir1.direction;
+    const match2 = geo21 === dir2.direction;
+    if (match1 && match2) { dirScore = 15; dirDesc = '互相在对方吉方位'; }
+    else if (match1 || match2) { dirScore = 8; dirDesc = '单向方位匹配'; }
+    else { dirScore = 3; dirDesc = `${p2.city}在${p1.city}的${geo12}方，你的吉方位是${dir1.direction}；${p1.city}在${p2.city}的${geo21}方，对方吉方位是${dir2.direction}`; }
+  } else {
+    dirScore = 10; dirDesc = '未提供出生地，方位不评分（给中性分）';
+  }
+
+  // 断头婚扣分
+  let duantouScore = 10;
+  if (duantou) {
+    duantouScore = duantou.type.includes('相冲') ? 0 : 3;
+  }
+
+  const total = zRel.score + mRel.score + dirScore + duantouScore;
+
+  // 综合评语
+  let comment = '';
+  if (total >= 80) comment = '非常般配！属相命宫多维度得吉，按书中术数是大吉之配。当然，感情最终靠两人经营。';
+  else if (total >= 60) comment = '中等偏上。有合有冲，总体不错。注意化解小矛盾，关系可以很好。';
+  else if (total >= 40) comment = '中等。不冲不害但也没有特别合，平平淡淡才是真。沟通比属相重要。';
+  else if (total >= 25) comment = '中等偏下。有自刑或方位不配的扣分项，但"一个字定不了乾坤"，不代表不行。';
+  else comment = '按术数来看不太理想，有冲或有害。但请记住：属相只看了一个字，八字还有七个字没看呢。';
+
+  // 化解方法
+  let huajieList = [];
+  if (zRel.type === '相冲' || zRel.type === '相害' || zRel.type === '自刑' || zRel.type === '相刑') {
+    const hj = getHuajie(zhi1, zhi2, zRel.type);
+    if (hj) huajieList.push({issue:'属相' + zRel.type, desc:hj.desc, gui:hj.gui});
+  }
+  if (duantou) {
+    const isDup = (duantou.type.includes('相冲') && zRel.type === '相冲') || (duantou.type.includes('相害') && zRel.type === '相害');
+    if (!isDup) {
+      const dtType = duantou.type.includes('相冲') ? '相冲' : '相害';
+      const hj = getHuajie(zhi1, zhi2, dtType);
+      if (hj) huajieList.push({issue:'断头婚(' + duantou.type + ')', desc:hj.desc, gui:hj.gui});
+    }
+  }
+  if (mRel.tag === 'bad' && huajieList.length === 0) {
+    huajieList.push({issue:'命宫不同组', desc:'命宫不配但可通过属相得吉来补偿。书中强调"一好遮百丑"——若属相三合或六合，可化解命宫之忌', gui:[]});
+  }
+
+  return {
+    p1: { zhi: zhi1, zodiac: ZHI_ZODIAC[zhi1], mingua: mg1, direction: dir1, lunar: lunar1, ganzhi: lunar1.ganzhi },
+    p2: { zhi: zhi2, zodiac: ZHI_ZODIAC[zhi2], mingua: mg2, direction: dir2, lunar: lunar2, ganzhi: lunar2.ganzhi },
+    zRel, mRel, duantou, dirScore, dirDesc, duantouScore, total, comment, huajieList
+  };
+}
+
+// ============ UI 交互 ============
+function switchTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === idx));
+}
+
+// radio选择
+document.querySelectorAll('.radio-group').forEach(group => {
+  group.querySelectorAll('.radio-item').forEach(item => {
+    item.addEventListener('click', () => {
+      group.querySelectorAll('.radio-item').forEach(i => i.classList.remove('selected'));
+      item.classList.add('selected');
+      item.querySelector('input').checked = true;
+    });
+  });
+});
+
+// 城市下拉
+function initCities() {
+  const cities = Object.keys(CITY_COORDS).sort((a, b) => a.localeCompare(b, 'zh'));
+  ['myCity', 'p1City', 'p2City'].forEach(id => {
+    const sel = document.getElementById(id);
+    cities.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  });
+}
+initCities();
+
+// 日期下拉初始化
+function initDateSelects(prefix, defaultYear, defaultMonth, defaultDay) {
+  const yearSel = document.getElementById(prefix + 'Year');
+  const monthSel = document.getElementById(prefix + 'Month');
+  const daySel = document.getElementById(prefix + 'Day');
+
+  // 填充年份 1940~当前年份，倒序（最近的在最前）
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 1940; y--) {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y + '年';
+    yearSel.appendChild(opt);
+  }
+  // 填充月份
+  for (let m = 1; m <= 12; m++) {
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = m + '月';
+    monthSel.appendChild(opt);
+  }
+
+  function updateDays() {
+    const y = parseInt(yearSel.value) || 2000;
+    const m = parseInt(monthSel.value) || 1;
+    const daysInMonth = new Date(y, m, 0).getDate();
+    const prevDay = parseInt(daySel.value) || 1;
+    daySel.innerHTML = '';
+    for (let d = 1; d <= daysInMonth; d++) {
+      const opt = document.createElement('option');
+      opt.value = d; opt.textContent = d + '日';
+      daySel.appendChild(opt);
+    }
+    daySel.value = Math.min(prevDay, daysInMonth);
+  }
+
+  yearSel.addEventListener('change', updateDays);
+  monthSel.addEventListener('change', updateDays);
+
+  // 设置默认值
+  yearSel.value = defaultYear;
+  monthSel.value = defaultMonth;
+  updateDays();
+  daySel.value = defaultDay;
+}
+
+function getDateFromSelects(prefix) {
+  const y = document.getElementById(prefix + 'Year').value;
+  const m = document.getElementById(prefix + 'Month').value;
+  const d = document.getElementById(prefix + 'Day').value;
+  if (!y || !m || !d) return '';
+  return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+// 默认值：2007-02-21
+initDateSelects('my', 2007, 2, 21);
+initDateSelects('p1', 2007, 2, 21);
+initDateSelects('p2', 2007, 6, 7);
+
+function getSelectedRadio(name) {
+  const checked = document.querySelector(`input[name="${name}"]:checked`);
+  return checked ? checked.value : null;
+}
+
+function scoreClass(score, max) {
+  const pct = score / max;
+  if (pct >= 0.7) return 'high';
+  if (pct >= 0.4) return 'mid';
+  return 'low';
+}
+
+// 推测对象
+function predictMatch() {
+  const date = getDateFromSelects('my');
+  const gender = getSelectedRadio('myGender');
+  if (!date) { alert('请选择出生日期'); return; }
+  if (!gender) { alert('请选择性别'); return; }
+
+  const btn = document.getElementById('btnPredict');
+  btn.disabled = true;
+  const resultsDiv = document.getElementById('predictResults');
+  resultsDiv.className = 'results show';
+  resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div><div>正在推算中...</div></div>';
+
+  setTimeout(() => {
+    try {
+      const { results, myInfo } = predictMatches(date, gender);
+      resultsDiv.innerHTML = renderPredictResults(results, myInfo);
+    } catch(e) {
+      resultsDiv.innerHTML = `<div class="empty-state"><div class="icon">❌</div><div>计算出错：${e.message}</div><div style="margin-top:8px;font-size:12px">请确认日期有效且网络正常（需加载农历库）</div></div>`;
+    }
+    btn.disabled = false;
+  }, 100);
+}
+
+function renderPredictResults(results, myInfo) {
+  if (results.length === 0) {
+    return '<div class="empty-state"><div class="icon">🔍</div><div>未找到符合条件的配对</div></div>';
+  }
+
+  let html = `<div style="text-align:center;margin-bottom:16px;font-size:14px;color:var(--text-light)">
+    你的信息：${myInfo.zodiac}（${myInfo.zhi}）· ${GUA_NAME[myInfo.mingua]}${myInfo.mingua}卦 · ${GUA_GROUP[myInfo.mingua]} · 吉方位${myInfo.direction.direction}
+  </div>`;
+
+  const best = results[0];
+  const sClass = scoreClass(best.totalScore, 100);
+
+  // 最优结果
+  html += `<div class="best-match">
+    <div class="best-badge">⭐ 最佳配对</div>
+    <div class="match-title">${best.year}年 · ${best.zodiac}（${best.zhi}）${best.gender==='female'?'女':'男'}</div>
+    <div class="match-subtitle">${best.ageDiff===0?'同龄':best.ageDiff>0?`小${best.ageDiff}岁`:`大${Math.abs(best.ageDiff)}岁`} · ${best.minguaName}${best.mingua}卦 · ${best.minguaGroup}${best.isYideng?' · 一等婚':''}</div>
+    <div class="score-bar">
+      <div class="score-fill ${sClass}" style="width:${best.totalScore}%">${best.totalScore}分</div>
+    </div>
+    <div class="dimension-grid">
+      <div class="dim-card">
+        <div class="dim-label">属相配对</div>
+        <div class="dim-value ${best.zodiacRelation.tag}">${best.zodiacRelation.type}</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-label">命宫配对</div>
+        <div class="dim-value ${best.minguaRelation.tag}">${best.minguaRelation.type}</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-label">方位落点</div>
+        <div class="dim-value ${best.dirRel==='三合'?'good':best.dirRel==='三会'||best.dirRel==='六合'?'good':'mid'}">${best.dirRel}</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-label">命宫卦象</div>
+        <div class="dim-value" style="color:var(--gold)">${best.minguaName}(${GUA_ELEM[best.mingua]})</div>
+      </div>
+    </div>`;
+
+  if (best.dates.length > 0) {
+    html += `<div class="date-list">
+      <div class="date-list-title">📍 精选出生日期（方位落点为三合/六合）：</div>
+      <div class="date-tags">`;
+    best.dates.forEach(dt => {
+      html += `<div class="date-tag">阳历${best.year}年${dt.solar}（${dt.season}）<br><span class="date-zodiac">${dt.zodiac}</span> · ${dt.direction}方 · ${dt.relationType}</div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  html += `<div class="comment-box">
+    <strong>综合分析：</strong>属相${best.zodiacRelation.desc}；命宫${best.minguaRelation.desc}${best.isYideng?'，逢凶化吉、挡灾化煞':''}；方位落点属相为${best.dirRel}。三个维度${best.totalScore>=80?'全部得吉，是大吉之配':best.totalScore>=60?'多数得吉，整体不错':'有合有忌，需综合看待'}。
+  </div></div>`;
+
+  // 备选结果
+  if (results.length > 1) {
+    html += `<div style="margin:20px 0 12px;font-size:16px;font-weight:600;color:var(--text)">📋 备选配对</div>`;
+    results.slice(1).forEach(r => {
+      const sc = scoreClass(r.totalScore, 100);
+      html += `<div class="alt-match">
+        <div class="alt-match-info">
+          <div class="alt-match-title">${r.year}年 · ${r.zodiac}${r.gender==='female'?'女':'男'} ${r.isYideng?'⭐一等婚':'同组'}</div>
+          <div class="alt-match-desc">属相${r.zodiacRelation.type} · 命宫${r.minguaRelation.type} · 落点${r.dirRel} · ${r.ageDiff===0?'同龄':r.ageDiff>0?`小${r.ageDiff}岁`:`大${Math.abs(r.ageDiff)}岁`}</div>
+        </div>
+        <div class="alt-score ${sc}">${r.totalScore}</div>
+      </div>`;
+    });
+  }
+
+  html += `<div class="comment-box" style="margin-top:20px;font-size:13px">
+    💡 说明：评分=属相(40)+命宫(35)+方位落点(25)，满分100。日期为该年出生且方位落点属相为吉的日子。<br>
+    🛡️ 如遇属相相冲/相害/自刑等不配情况，书中第267章提供了贵人属相化解法——前往「双人配对」输入两人信息即可查看具体化解建议。仅供参考娱乐。
+  </div>`;
+
+  return html;
+}
+
+// 配对测试
+function pairTest() {
+  const d1 = getDateFromSelects('p1');
+  const d2 = getDateFromSelects('p2');
+  const g1 = getSelectedRadio('p1Gender');
+  const g2 = getSelectedRadio('p2Gender');
+  const c1 = document.getElementById('p1City').value;
+  const c2 = document.getElementById('p2City').value;
+
+  if (!d1 || !d2) { alert('请选择双方出生日期'); return; }
+  if (!g1 || !g2) { alert('请选择双方性别'); return; }
+
+  const btn = document.getElementById('btnPair');
+  btn.disabled = true;
+  const resultsDiv = document.getElementById('pairResults');
+  resultsDiv.className = 'results show';
+  resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div><div>正在配对中...</div></div>';
+
+  setTimeout(() => {
+    try {
+      const result = pairTestCalc(
+        { date: d1, gender: g1, city: c1 },
+        { date: d2, gender: g2, city: c2 }
+      );
+      resultsDiv.innerHTML = renderPairResults(result);
+    } catch(e) {
+      resultsDiv.innerHTML = `<div class="empty-state"><div class="icon">❌</div><div>计算出错：${e.message}</div></div>`;
+    }
+    btn.disabled = false;
+  }, 100);
+}
+
+function renderPairResults(r) {
+  const sClass = scoreClass(r.total, 100);
+  let scoreColor = r.total >= 70 ? 'var(--success)' : r.total >= 45 ? 'var(--warning)' : 'var(--danger)';
+
+  let html = `<div class="pair-result">
+    <div class="pair-score-circle">
+      <svg width="120" height="120" style="position:absolute;top:0;left:0">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="${scoreColor}" stroke-width="8"
+          stroke-dasharray="${327}" stroke-dashoffset="${327 - 327 * r.total / 100}"
+          transform="rotate(-90 60 60)" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease"/>
+      </svg>
+      <div class="pair-score-num" style="color:${scoreColor}">${r.total}</div>
+    </div>
+    <div class="pair-score-label">综合配对评分 / 100</div>
+
+    <div style="display:flex;gap:12px;margin-bottom:16px">
+      <div style="flex:1;text-align:center;background:var(--bg2);border-radius:10px;padding:12px">
+        <div style="font-size:20px">${r.p1.zodiac}</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:4px">${r.p1.ganzhi} · ${GUA_NAME[r.p1.mingua]}${r.p1.mingua}卦</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:24px">💕</div>
+      <div style="flex:1;text-align:center;background:var(--bg2);border-radius:10px;padding:12px">
+        <div style="font-size:20px">${r.p2.zodiac}</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:4px">${r.p2.ganzhi} · ${GUA_NAME[r.p2.mingua]}${r.p2.mingua}卦</div>
+      </div>
+    </div>`;
+
+  // 各维度
+  html += `<div class="pair-detail">
+    <div class="pair-detail-row">
+      <div class="pair-detail-label">属相配对</div>
+      <div class="pair-detail-value"><span class="tag ${r.zRel.tag}">${r.p1.zodiac} ↔ ${r.p2.zodiac} · ${r.zRel.type}</span></div>
+    </div>
+    <div class="pair-detail-row">
+      <div class="pair-detail-label">命宫配对</div>
+      <div class="pair-detail-value"><span class="tag ${r.mRel.tag}">${GUA_NAME[r.p1.mingua]}${r.p1.mingua} ↔ ${GUA_NAME[r.p2.mingua]}${r.p2.mingua} · ${r.mRel.type}</span></div>
+    </div>`;
+
+  if (r.duantou) {
+    html += `<div class="pair-detail-row">
+      <div class="pair-detail-label">断头婚检查</div>
+      <div class="pair-detail-value"><span class="tag bad">${r.duantou.type} · ${r.duantou.desc}</span></div>
+    </div>`;
+  } else {
+    html += `<div class="pair-detail-row">
+      <div class="pair-detail-label">断头婚检查</div>
+      <div class="pair-detail-value"><span class="tag good">无</span></div>
+    </div>`;
+  }
+
+  html += `<div class="pair-detail-row">
+    <div class="pair-detail-label">方位匹配</div>
+    <div class="pair-detail-value"><span class="tag ${r.dirScore>=15?'good':r.dirScore>=8?'mid':'low'}">${r.dirDesc}</span></div>
+  </div>
+  </div>`;
+
+  // 各项得分
+  html += `<div class="dimension-grid" style="margin-top:16px">
+    <div class="dim-card"><div class="dim-label">属相得分</div><div class="dim-value ${r.zRel.tag}">${r.zRel.score}/40</div></div>
+    <div class="dim-card"><div class="dim-label">命宫得分</div><div class="dim-value ${r.mRel.tag}">${r.mRel.score}/35</div></div>
+    <div class="dim-card"><div class="dim-label">方位得分</div><div class="dim-value ${r.dirScore>=15?'good':r.dirScore>=8?'mid':'low'}">${r.dirScore}/15</div></div>
+    <div class="dim-card"><div class="dim-label">断头婚</div><div class="dim-value ${r.duantouScore>=10?'good':r.duantouScore>=3?'mid':'bad'}">${r.duantouScore}/10</div></div>
+  </div>`;
+
+  html += `<div class="comment-box">${r.comment}</div>`;
+
+  // 化解方法
+  if (r.huajieList && r.huajieList.length > 0) {
+    html += `<div class="huajie-box">
+      <div class="huajie-title">🛡️ 化解方法</div>`;
+    r.huajieList.forEach(hj => {
+      html += `<div class="huajie-item">
+        <div class="huajie-item-label">${hj.issue}</div>
+        <div class="huajie-item-desc">${hj.desc}</div>`;
+      if (hj.gui && hj.gui.length > 0) {
+        html += `<div style="margin-top:6px"><span style="font-size:12px;color:var(--text-light)">贵人属相：</span>`;
+        hj.gui.forEach(g => { html += `<span class="huajie-gui">${g}</span>`; });
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+    html += `<div class="huajie-note">💡 化解原理：用三合或六合的属相当"中间人"，在冲突的五行之间搭桥，将直接对抗转为间接流通。可理解为生活中多接触贵人属相的人，或在相处中借该属相之人调和矛盾。仅供娱乐参考。</div>
+    </div>`;
+  } else if (r.total >= 70) {
+    html += `<div class="huajie-box" style="border-color:var(--success);background:linear-gradient(135deg,#f0fff0 0%,#fff8f0 100%)">
+      <div class="huajie-title" style="color:var(--success)">✨ 无需化解</div>
+      <div style="font-size:13px;color:var(--text)">各方面匹配良好，按书中术数无需特别化解。继续保持沟通与理解即可。</div>
+    </div>`;
+  }
+
+  html += `</div>`;
+
+  return html;
+}
+
+// 检查库是否加载
+if (typeof Solar === 'undefined') {
+  document.querySelectorAll('.btn-primary').forEach(b => {
+    b.disabled = true;
+    b.textContent = '农历库加载失败，请刷新';
+  });
+}
+</script>
+</body>
+</html>
